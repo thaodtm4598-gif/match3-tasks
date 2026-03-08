@@ -12,7 +12,7 @@ interface Props {
 
 export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
   const grouped: Record<string, Task[]> = {};
-  tasks.forEach(t => {
+  tasks.forEach((t) => {
     const key = t.assignee || 'Unassigned';
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(t);
@@ -29,16 +29,17 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
       {Object.entries(grouped)
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([person, ptasks]) => {
-          const done = ptasks.filter(t => t.status === 'Done').length;
+          const done = ptasks.filter((t) => t.status === 'Done').length;
           const pct = Math.round((done / ptasks.length) * 100);
-          const hue = person.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+          const hue =
+            person.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
 
           return (
             <div
               key={person}
               style={{
-                background: '#0e1220',
-                border: '1px solid #1a2035',
+                background: 'var(--th-card)',
+                border: '1px solid var(--th-border)',
                 borderRadius: 10,
                 overflow: 'hidden',
               }}
@@ -46,8 +47,8 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
               <div
                 style={{
                   padding: '12px 16px',
-                  background: `hsl(${hue},30%,8%)`,
-                  borderBottom: '1px solid #1a2035',
+                  background: `var(--th-surface2)`,
+                  borderBottom: `1px solid hsl(${hue},40%,40%)44`,
                   display: 'flex',
                   alignItems: 'center',
                   gap: 10,
@@ -55,14 +56,26 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
               >
                 <Avatar name={person} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: 13 }}>{person}</div>
-                  <div style={{ fontSize: 10, color: '#3c5070' }}>
+                  <div
+                    style={{
+                      fontWeight: 700,
+                      fontSize: 13,
+                      color: 'var(--th-text)',
+                    }}
+                  >
+                    {person}
+                  </div>
+                  <div style={{ fontSize: 10, color: 'var(--th-text3)' }}>
                     {ptasks.length} tasks · {done} done
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div
-                    style={{ fontSize: 16, fontWeight: 800, color: `hsl(${hue},60%,55%)` }}
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 800,
+                      color: `hsl(${hue},60%,55%)`,
+                    }}
                   >
                     {pct}%
                   </div>
@@ -70,7 +83,7 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
               </div>
 
               {/* Progress bar */}
-              <div style={{ height: 3, background: '#0a0d14' }}>
+              <div style={{ height: 3, background: 'var(--th-surface)' }}>
                 <div
                   style={{
                     height: '100%',
@@ -82,7 +95,7 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
               </div>
 
               <div style={{ padding: 8 }}>
-                {ptasks.map(t => {
+                {ptasks.map((t) => {
                   const d = daysUntil(t.end_date);
                   const urgent = d !== null && d <= 1 && t.status !== 'Done';
                   return (
@@ -104,6 +117,7 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
                         style={{
                           flex: 1,
                           fontSize: 11,
+                          color: 'var(--th-text)',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
@@ -115,13 +129,21 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
                       <span
                         style={{
                           fontSize: 10,
-                          color: d !== null && d < 0 ? '#f05060' : d === 0 ? '#f0a030' : '#2a3a5a',
+                          color:
+                            d !== null && d < 0
+                              ? '#f05060'
+                              : d === 0
+                                ? '#f0a030'
+                                : 'var(--th-text3)',
                           whiteSpace: 'nowrap',
                         }}
                       >
                         {fmt(t.end_date)}
                       </span>
-                      <StatusBadge status={t.status} onClick={() => onCycle(t.id)} />
+                      <StatusBadge
+                        status={t.status}
+                        onClick={() => onCycle(t.id)}
+                      />
                       {t.status !== 'Done' && (
                         <button
                           onClick={() => onDone(t.id)}

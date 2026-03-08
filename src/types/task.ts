@@ -1,6 +1,6 @@
 export type TaskStatus = 'Open' | 'To Do' | 'In Progress' | 'Done';
 export type TaskPriority = 'High' | 'Medium' | 'Low';
-export type TaskSprint = 'Sprint 1' | 'Sprint 2' | 'Sprint 3' | 'Backlog';
+export type TaskSprint = 'Build 1' | 'Build 2' | 'Build 3' | 'Backlog';
 
 export interface Task {
   id: string;

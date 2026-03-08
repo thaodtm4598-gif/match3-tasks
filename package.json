@@ -15,6 +15,8 @@
     "setup-db": "node scripts/setup-db.mjs"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/utilities": "^3.2.2",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.98.0",

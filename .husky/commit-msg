@@ -1,1 +1,1 @@
-pnpm exec commitlint --edit "$1"
+PATH="/opt/homebrew/bin:$PATH" pnpm exec commitlint --edit "$1"

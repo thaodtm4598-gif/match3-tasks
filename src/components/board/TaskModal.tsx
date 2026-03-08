@@ -2,7 +2,15 @@
 
 import { useState } from 'react';
 import type { Task, TaskStatus, TaskPriority, TaskSprint } from '@/types/task';
-import { ALL_LABELS, MEMBERS, STATUS_OPTS, PRIORITY_OPTS, SPRINT_OPTS, WORKFLOW_RULES, DELIVERABLE_RULES } from '@/lib/constants';
+import {
+  ALL_LABELS,
+  MEMBERS,
+  STATUS_OPTS,
+  PRIORITY_OPTS,
+  SPRINT_OPTS,
+  WORKFLOW_RULES,
+  DELIVERABLE_RULES,
+} from '@/lib/constants';
 import { inferWorkflow, inferDeliverables } from '@/lib/helpers';
 import { Btn, Field, inputStyle } from '@/components/ui';
 
@@ -25,16 +33,16 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
       assignee: '',
       start_date: '',
       end_date: '',
-      sprint: 'Sprint 1' as TaskSprint,
+      sprint: 'Build 1' as TaskSprint,
       note: '',
     },
   );
 
   const set = <K extends keyof FormData>(k: K, v: FormData[K]) =>
-    setForm(p => ({ ...p, [k]: v }));
+    setForm((p) => ({ ...p, [k]: v }));
 
   const wfId = inferWorkflow(form.label);
-  const wfName = wfId ? WORKFLOW_RULES.find(w => w.id === wfId)?.name : null;
+  const wfName = wfId ? WORKFLOW_RULES.find((w) => w.id === wfId)?.name : null;
   const delivs = inferDeliverables(form.label);
 
   function handleSave() {
@@ -50,7 +58,7 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,.75)',
+        background: 'var(--th-overlay)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -61,8 +69,8 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
     >
       <div
         style={{
-          background: '#0e1220',
-          border: '1px solid #1a2035',
+          background: 'var(--th-card)',
+          border: '1px solid var(--th-border)',
           borderRadius: 12,
           padding: '24px',
           width: 540,
@@ -71,7 +79,7 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
           boxShadow: '0 20px 60px rgba(0,0,0,.7)',
           animation: 'slideIn .2s ease',
         }}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div
@@ -82,12 +90,20 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
             marginBottom: 20,
           }}
         >
-          <div style={{ fontSize: 15, fontWeight: 800 }}>
+          <div
+            style={{ fontSize: 15, fontWeight: 800, color: 'var(--th-text)' }}
+          >
             {initial?.id ? `Edit ${initial.id}` : 'Add New Task'}
           </div>
           <button
             onClick={onClose}
-            style={{ background: 'none', border: 'none', color: '#506090', cursor: 'pointer', fontSize: 18 }}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--th-text2)',
+              cursor: 'pointer',
+              fontSize: 18,
+            }}
           >
             ✕
           </button>
@@ -98,22 +114,26 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
           <Field label="Summary *">
             <input
               value={form.summary}
-              onChange={e => set('summary', e.target.value)}
+              onChange={(e) => set('summary', e.target.value)}
               placeholder="Describe the task…"
               style={inputStyle}
             />
           </Field>
 
           {/* Grid fields */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div
+            style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}
+          >
             <Field label="Label / Epic">
               <select
                 value={form.label}
-                onChange={e => set('label', e.target.value)}
+                onChange={(e) => set('label', e.target.value)}
                 style={inputStyle}
               >
-                {ALL_LABELS.map(l => (
-                  <option key={l} value={l}>{l}</option>
+                {ALL_LABELS.map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
                 ))}
               </select>
             </Field>
@@ -121,12 +141,14 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
             <Field label="Assignee">
               <select
                 value={form.assignee}
-                onChange={e => set('assignee', e.target.value)}
+                onChange={(e) => set('assignee', e.target.value)}
                 style={inputStyle}
               >
                 <option value="">— Select —</option>
-                {MEMBERS.map(m => (
-                  <option key={m} value={m}>{m}</option>
+                {MEMBERS.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
                 ))}
               </select>
             </Field>
@@ -134,11 +156,13 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
             <Field label="Status">
               <select
                 value={form.status}
-                onChange={e => set('status', e.target.value as TaskStatus)}
+                onChange={(e) => set('status', e.target.value as TaskStatus)}
                 style={inputStyle}
               >
-                {STATUS_OPTS.map(s => (
-                  <option key={s} value={s}>{s}</option>
+                {STATUS_OPTS.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
             </Field>
@@ -146,11 +170,15 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
             <Field label="Priority">
               <select
                 value={form.priority}
-                onChange={e => set('priority', e.target.value as TaskPriority)}
+                onChange={(e) =>
+                  set('priority', e.target.value as TaskPriority)
+                }
                 style={inputStyle}
               >
-                {PRIORITY_OPTS.map(p => (
-                  <option key={p} value={p}>{p}</option>
+                {PRIORITY_OPTS.map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
                 ))}
               </select>
             </Field>
@@ -159,7 +187,7 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
               <input
                 type="date"
                 value={form.start_date ?? ''}
-                onChange={e => set('start_date', e.target.value || null)}
+                onChange={(e) => set('start_date', e.target.value || null)}
                 style={inputStyle}
               />
             </Field>
@@ -168,19 +196,21 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
               <input
                 type="date"
                 value={form.end_date ?? ''}
-                onChange={e => set('end_date', e.target.value || null)}
+                onChange={(e) => set('end_date', e.target.value || null)}
                 style={inputStyle}
               />
             </Field>
 
-            <Field label="Sprint">
+            <Field label="Build">
               <select
                 value={form.sprint}
-                onChange={e => set('sprint', e.target.value as TaskSprint)}
+                onChange={(e) => set('sprint', e.target.value as TaskSprint)}
                 style={inputStyle}
               >
-                {SPRINT_OPTS.map(s => (
-                  <option key={s} value={s}>{s}</option>
+                {SPRINT_OPTS.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
             </Field>
@@ -190,7 +220,7 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
           <Field label="Note">
             <input
               value={form.note}
-              onChange={e => set('note', e.target.value)}
+              onChange={(e) => set('note', e.target.value)}
               placeholder="Optional note / blocker…"
               style={inputStyle}
             />
@@ -200,8 +230,8 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
           {(wfName || delivs.length > 0) && (
             <div
               style={{
-                background: '#07101a',
-                border: '1px solid #0f2a3a',
+                background: 'var(--th-surface)',
+                border: '1px solid var(--th-border2)',
                 borderRadius: 8,
                 padding: '12px 14px',
               }}
@@ -210,7 +240,7 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
                 style={{
                   fontSize: 10,
                   fontWeight: 700,
-                  color: '#4a90c0',
+                  color: 'var(--th-text2)',
                   marginBottom: 8,
                   textTransform: 'uppercase',
                   letterSpacing: 1,
@@ -220,26 +250,45 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
               </div>
               {wfName && (
                 <div style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 10, color: '#3c5070' }}>Workflow chain: </span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#5ba3f5' }}>{wfName}</span>
+                  <span style={{ fontSize: 10, color: 'var(--th-text3)' }}>
+                    Workflow chain:{' '}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: 'var(--th-accent2)',
+                    }}
+                  >
+                    {wfName}
+                  </span>
                 </div>
               )}
               {delivs.length > 0 && (
                 <div>
-                  <span style={{ fontSize: 10, color: '#3c5070' }}>Linked deliverables: </span>
-                  <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {delivs.map(did => {
-                      const d = DELIVERABLE_RULES.find(x => x.id === did);
+                  <span style={{ fontSize: 10, color: 'var(--th-text3)' }}>
+                    Linked deliverables:{' '}
+                  </span>
+                  <div
+                    style={{
+                      marginTop: 4,
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 4,
+                    }}
+                  >
+                    {delivs.map((did) => {
+                      const d = DELIVERABLE_RULES.find((x) => x.id === did);
                       return d ? (
                         <span
                           key={did}
                           style={{
                             fontSize: 9,
-                            background: '#0a1828',
-                            border: '1px solid #1a3050',
+                            background: 'var(--th-surface2)',
+                            border: '1px solid var(--th-border)',
                             borderRadius: 3,
                             padding: '2px 6px',
-                            color: '#5070a0',
+                            color: 'var(--th-text2)',
                           }}
                         >
                           {d.name}
@@ -253,7 +302,14 @@ export default function TaskModal({ initial, onSave, onClose }: Props) {
           )}
 
           {/* Actions */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: 10,
+              marginTop: 8,
+            }}
+          >
             <Btn onClick={onClose}>Cancel</Btn>
             <Btn primary onClick={handleSave}>
               {initial?.id ? 'Save Changes' : 'Add Task →'}

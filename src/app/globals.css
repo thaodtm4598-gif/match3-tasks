@@ -1,13 +1,26 @@
 @import 'tailwindcss';
 
+/* ── Default theme tokens (dark) ── */
 :root {
-  --background: #090b10;
-  --foreground: #dde3f0;
+  --th-bg: #0f0f23;
+  --th-surface: #0d0d22;
+  --th-surface2: #12122a;
+  --th-card: #13172e;
+  --th-border: #1e1a40;
+  --th-border2: #141828;
+  --th-text: #e2e8f0;
+  --th-text2: #6070a0;
+  --th-text3: #3a3060;
+  --th-input: #090b1a;
+  --th-overlay: rgba(0, 0, 0, 0.75);
+  --th-header: linear-gradient(180deg, #141430 0%, #0f0f23 100%);
+  --th-accent: #7c3aed;
+  --th-accent2: #a78bfa;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--th-bg);
+  --color-foreground: var(--th-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -17,11 +30,15 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--th-bg);
+  color: var(--th-text);
   font-family: 'DM Sans', system-ui, sans-serif;
+  transition:
+    background 0.25s,
+    color 0.25s;
 }
 
+/* ── Keyframes ── */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -32,14 +49,171 @@ body {
     transform: translateY(0);
   }
 }
-
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 6px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 18px currentColor;
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes dropSuccess {
+  0% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes themeSwitch {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar       { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0a0d14; }
-::-webkit-scrollbar-thumb { background: #1e2840; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #2a3a5a; }
+/* ── Gem glow per status ── */
+.gem-open {
+  box-shadow:
+    0 0 0 1px #7c3aed44,
+    inset 0 1px 0 #ffffff10;
+}
+.gem-todo {
+  box-shadow:
+    0 0 0 1px #2563eb44,
+    inset 0 1px 0 #ffffff10;
+}
+.gem-inprogress {
+  box-shadow:
+    0 0 0 1px #d9770644,
+    inset 0 1px 0 #ffffff10;
+}
+.gem-done {
+  box-shadow:
+    0 0 0 1px #05966944,
+    inset 0 1px 0 #ffffff10;
+}
+
+.gem-open:hover {
+  box-shadow:
+    0 0 12px #7c3aed66,
+    0 0 0 1px #7c3aed88;
+}
+.gem-todo:hover {
+  box-shadow:
+    0 0 12px #2563eb66,
+    0 0 0 1px #2563eb88;
+}
+.gem-inprogress:hover {
+  box-shadow:
+    0 0 12px #d9770666,
+    0 0 0 1px #d9770688;
+}
+.gem-done:hover {
+  box-shadow:
+    0 0 12px #05966966,
+    0 0 0 1px #05966988;
+}
+
+/* ── Light theme — adjust gem glows for readability ── */
+[data-theme='light'] .gem-open:hover {
+  box-shadow:
+    0 2px 12px #7c3aed40,
+    0 0 0 1px #7c3aed60;
+}
+[data-theme='light'] .gem-todo:hover {
+  box-shadow:
+    0 2px 12px #2563eb40,
+    0 0 0 1px #2563eb60;
+}
+[data-theme='light'] .gem-inprogress:hover {
+  box-shadow:
+    0 2px 12px #d9770640,
+    0 0 0 1px #d9770660;
+}
+[data-theme='light'] .gem-done:hover {
+  box-shadow:
+    0 2px 12px #05966940,
+    0 0 0 1px #05966960;
+}
+
+/* ── Neon theme — brighter glows ── */
+[data-theme='neon'] .gem-open {
+  box-shadow:
+    0 0 8px #00ff9940,
+    0 0 0 1px #00ff9930;
+}
+[data-theme='neon'] .gem-open:hover {
+  box-shadow:
+    0 0 20px #00ff9980,
+    0 0 0 1px #00ff9960;
+}
+
+/* ── Theme transition on all major elements ── */
+[data-theme] header,
+[data-theme] nav,
+[data-theme] .board-surface {
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+}
+
+/* ── Light theme explicit overrides for native selects ── */
+[data-theme='light'] select,
+[data-theme='light'] input {
+  color-scheme: light;
+}
+[data-theme='dark'] select,
+[data-theme='dark'] input,
+[data-theme='neon'] select,
+[data-theme='neon'] input {
+  color-scheme: dark;
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--th-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--th-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--th-accent);
+  opacity: 0.5;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

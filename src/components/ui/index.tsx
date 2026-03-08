@@ -3,8 +3,18 @@
 import { LABEL_META, STATUS_STYLE, PRIORITY_STYLE } from '@/lib/constants';
 
 // ─── LabelPill ────────────────────────────────────────────────────────────────
-export function LabelPill({ label, size = 'sm' }: { label: string; size?: 'sm' | 'md' }) {
-  const m = LABEL_META[label] ?? { bg: '#1a1e2a', fg: '#8090b0', dot: '#5060a0' };
+export function LabelPill({
+  label,
+  size = 'sm',
+}: {
+  label: string;
+  size?: 'sm' | 'md';
+}) {
+  const m = LABEL_META[label] ?? {
+    bg: '#1a1e2a',
+    fg: '#8090b0',
+    dot: '#5060a0',
+  };
   const pad = size === 'sm' ? '2px 8px' : '3px 10px';
   const fs = size === 'sm' ? 10 : 11;
   return (
@@ -25,7 +35,13 @@ export function LabelPill({ label, size = 'sm' }: { label: string; size?: 'sm' |
       }}
     >
       <span
-        style={{ width: 6, height: 6, borderRadius: '50%', background: m.dot, display: 'inline-block' }}
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: '50%',
+          background: m.dot,
+          display: 'inline-block',
+        }}
       />
       {label}
     </span>
@@ -33,7 +49,13 @@ export function LabelPill({ label, size = 'sm' }: { label: string; size?: 'sm' |
 }
 
 // ─── StatusBadge ──────────────────────────────────────────────────────────────
-export function StatusBadge({ status, onClick }: { status: string; onClick?: () => void }) {
+export function StatusBadge({
+  status,
+  onClick,
+}: {
+  status: string;
+  onClick?: () => void;
+}) {
   const s = STATUS_STYLE[status] ?? STATUS_STYLE['Open'];
   return (
     <span
@@ -68,8 +90,12 @@ export function PriorityDot({ priority }: { priority: string }) {
 
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 export function Avatar({ name }: { name: string }) {
-  if (!name) return <span style={{ color: '#3c4260', fontSize: 11 }}>—</span>;
-  const initials = name.replace(/[^A-Za-z\u00C0-\u1EF9]/g, '').slice(0, 2).toUpperCase();
+  if (!name)
+    return <span style={{ color: 'var(--th-text3)', fontSize: 11 }}>—</span>;
+  const initials = name
+    .replace(/[^A-Za-z\u00C0-\u1EF9]/g, '')
+    .slice(0, 2)
+    .toUpperCase();
   const hue = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
   return (
     <span
@@ -122,45 +148,13 @@ export function Btn({
         fontFamily: 'inherit',
         fontSize: 12,
         fontWeight: 700,
-        background: primary ? '#1a4a8a' : '#0e1220',
-        border: `1px solid ${primary ? '#2a6acc' : '#1a2035'}`,
-        color: primary ? '#80b8f8' : '#506090',
+        background: primary ? 'var(--th-accent)' : 'var(--th-surface)',
+        border: `1px solid ${primary ? 'var(--th-accent2)' : 'var(--th-border)'}`,
+        color: primary ? '#fff' : 'var(--th-text2)',
         transition: 'all .15s',
         position: 'relative',
         opacity: disabled ? 0.6 : 1,
         ...style,
-      }}
-    >
-      {children}
-    </button>
-  );
-}
-
-// ─── Tab ──────────────────────────────────────────────────────────────────────
-export function Tab({
-  children,
-  active,
-  onClick,
-}: {
-  children: React.ReactNode;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        padding: '10px 18px',
-        background: 'none',
-        border: 'none',
-        borderBottom: `2px solid ${active ? '#4a90d9' : 'transparent'}`,
-        color: active ? '#4a90d9' : '#3c5070',
-        fontFamily: 'inherit',
-        fontSize: 12,
-        fontWeight: 700,
-        cursor: 'pointer',
-        transition: 'all .15s',
-        whiteSpace: 'nowrap',
       }}
     >
       {children}
@@ -183,36 +177,44 @@ export function FSelect({
   return (
     <select
       value={value}
-      onChange={e => onChange(e.target.value)}
+      onChange={(e) => onChange(e.target.value)}
       style={{
-        background: '#0e1220',
-        border: '1px solid #1a2035',
+        background: 'var(--th-surface2)',
+        border: '1px solid var(--th-border)',
         borderRadius: 6,
         padding: '5px 10px',
-        color: value !== 'all' ? '#dde3f0' : '#506090',
+        color: value !== 'all' ? 'var(--th-text)' : 'var(--th-text2)',
         fontSize: 11,
         fontFamily: 'inherit',
         outline: 'none',
       }}
     >
       <option value="all">All {label}</option>
-      {opts.filter(o => o !== 'all').map(o => (
-        <option key={o} value={o}>
-          {o}
-        </option>
-      ))}
+      {opts
+        .filter((o) => o !== 'all')
+        .map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
     </select>
   );
 }
 
 // ─── Field ────────────────────────────────────────────────────────────────────
-export function Field({ label, children }: { label: string; children: React.ReactNode }) {
+export function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <div
         style={{
           fontSize: 10,
-          color: '#3c5070',
+          color: 'var(--th-text2)',
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: 0.8,
@@ -229,7 +231,13 @@ export function Field({ label, children }: { label: string; children: React.Reac
 // ─── EmptyState ───────────────────────────────────────────────────────────────
 export function EmptyState({ msg }: { msg: string }) {
   return (
-    <div style={{ textAlign: 'center', padding: '60px 20px', color: '#2a3a5a' }}>
+    <div
+      style={{
+        textAlign: 'center',
+        padding: '60px 20px',
+        color: 'var(--th-text3)',
+      }}
+    >
       <div style={{ fontSize: 32, marginBottom: 12 }}>📭</div>
       <div style={{ fontSize: 13 }}>{msg}</div>
     </div>
@@ -239,11 +247,11 @@ export function EmptyState({ msg }: { msg: string }) {
 // ─── inputStyle (shared) ──────────────────────────────────────────────────────
 export const inputStyle: React.CSSProperties = {
   width: '100%',
-  background: '#090b12',
-  border: '1px solid #1a2035',
+  background: 'var(--th-input)',
+  border: '1px solid var(--th-border)',
   borderRadius: 6,
   padding: '7px 10px',
-  color: '#dde3f0',
+  color: 'var(--th-text)',
   fontSize: 12,
   fontFamily: 'inherit',
   outline: 'none',
