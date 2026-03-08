@@ -108,8 +108,10 @@ export default function AssigneeView({ tasks, onCycle, onDone }: Props) {
                         padding: '6px 8px',
                         borderRadius: 6,
                         marginBottom: 2,
-                        background: urgent ? '#1a0a0a' : 'transparent',
-                        border: `1px solid ${urgent ? '#f0506030' : 'transparent'}`,
+                        background: urgent
+                          ? 'rgba(240,80,96,0.1)'
+                          : 'transparent',
+                        border: `1px solid ${urgent ? 'rgba(240,80,96,0.25)' : 'transparent'}`,
                       }}
                     >
                       <PriorityDot priority={t.priority} />

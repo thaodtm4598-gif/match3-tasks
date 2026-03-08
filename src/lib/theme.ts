@@ -37,10 +37,10 @@ const THEMES: ThemeTokens[] = [
     vars: {
       '--th-bg': '#f5f3ff',
       '--th-surface': '#ffffff',
-      '--th-surface2': '#faf9ff',
+      '--th-surface2': '#ece8ff',
       '--th-card': '#ffffff',
-      '--th-border': '#ddd8ff',
-      '--th-border2': '#ede9ff',
+      '--th-border': '#ccc6f0',
+      '--th-border2': '#ddd8ff',
       '--th-text': '#1e1040',
       '--th-text2': '#3a3a90',
       '--th-text3': '#6060a0',

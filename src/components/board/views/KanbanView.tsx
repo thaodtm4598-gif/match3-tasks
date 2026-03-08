@@ -436,7 +436,7 @@ function KanbanColumn({
         flexDirection: 'column',
         minWidth: 270,
         flex: 1,
-        background: isOver ? bg : 'var(--th-card)',
+        background: isOver ? bg : 'var(--th-surface2)',
         border: `1px solid ${isOver ? color + '80' : 'var(--th-border)'}`,
         borderTop: `3px solid ${color}`,
         borderRadius: 10,
